@@ -1,0 +1,5 @@
+.gitattributes* text=auto eol=lf
+
+*.html diff=html
+*.css diff=css
+*.md diff=markdown

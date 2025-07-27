@@ -1,0 +1,27 @@
+# hidden
+.*
+
+# env
+!.env.example
+
+# git
+!.gitignore
+!.gitattributes
+
+# logs
+logs/
+*.log*
+*.error*
+
+# tests
+tests/
+
+# dist
+dist/
+
+# npm
+node_modules/
+package-lock.json
+
+# other
+Thumbs.db
