@@ -14,42 +14,42 @@ declare module 'favie-utils' {
    * @param variable - The variable to check.
    * @returns True if the variable is defined, otherwise false.
    */
-  export function isDefined<T>(variable: T): boolean;
+  export function isDefined<T>(variable: T): variable is Exclude<T, undefined>;
 
   /**
    * Checks whether a variable is null.
    * @param variable - The variable to check.
    * @param strict - Indicates whether to perform a strict comparison (default is true).
    */
-  export function isNull<T>(variable: T, strict?: boolean): boolean;
+  export function isNull(variable: unknown): variable is null;
 
   /**
    * Checks whether a variable is empty.
    * @param variable - The variable to check.
    * @returns True if the variable is empty, otherwise false.
    */
-  export function isEmpty<T>(variable: T): boolean;
+  export function isEmpty(variable: unknown): boolean;
 
   /**
    * Checks whether a variable has data.
    * @param variable - The variable to check.
    * @returns True if the variable has data, otherwise false.
    */
-  export function hasData<T>(variable: T): boolean;
+  export function hasData(variable: unknown): boolean;
 
   /**
    * Checks whether a variable is an object.
    * @param variable - The variable to check.
    * @returns True if the variable is an object, otherwise false.
    */
-  export function isObject<T>(variable: T): boolean;
+  export function isObject(variable: unknown): variable is Record<string, unknown>;
 
   /**
    * Checks whether a variable is a string.
    * @param variable - The variable to check.
    * @returns True if the variable is a string, otherwise false.
    */
-  export function isString<T>(variable: T): boolean;
+  export function isString(variable: unknown): variable is string;
 
   /**
    * Validates whether a given string is a properly formatted URL.
@@ -70,7 +70,7 @@ declare module 'favie-utils' {
    * @param variable - The variable to check.
    * @returns True if the variable is a Buffer, false otherwise.
    */
-  export function isBuffer(variable: any): variable is Buffer;
+  export function isBuffer(variable: unknown): variable is Buffer;
 
   /**
    * Checks if a given string is a valid Base64 encoded string.
