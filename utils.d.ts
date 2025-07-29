@@ -225,6 +225,45 @@ declare module 'favie-utils' {
   export function sha256(string: string): string;
 
   /**
+   * Generates a 256-bit (32-byte) cryptographic key from a password using SHA-256 hash.
+   * @param {string} password - The input password or passphrase.
+   * @returns {Buffer} - A 32-byte cryptographic key derived from the password.
+   */
+  export function getKey(password: string): Buffer;
+
+  /**
+   * Encrypts a UTF-8 string using AES-256-CBC with a password-derived key.
+   * @param {string} text - The plaintext to encrypt.
+   * @param {string} password - The password used to derive the encryption key.
+   * @returns {string} - A string containing the IV and encrypted data, separated by a colon (IV:encrypted).
+   */
+  export function encrypt(text: string, password: string): string;
+
+  /**
+   * Decrypts AES-256-CBC encrypted data using a password-derived key.
+   * @param {string} encryptedData - The encrypted string in the format "iv:encrypted", both in hex.
+   * @param {string} password - The password used to derive the decryption key.
+   * @returns {string} - The decrypted UTF-8 string.
+   */
+  export function decrypt(encryptedData: string, password: string): string;
+
+  /**
+   * Encrypts a UTF-8 text string using XOR cipher with the given keyword.
+   * @param {string} text - The plaintext to encrypt.
+   * @param {string} keyword - The keyword used for XOR encryption.
+   * @returns {string} - The Base64-encoded encrypted string.
+   */
+  export function xorEncrypt(text: string, keyword: string): string;
+
+  /**
+   * Decrypts a Base64-encoded string using XOR cipher with the given keyword.
+   * @param {string} encoded - The Base64-encoded string to decrypt.
+   * @param {string} keyword - The keyword used for XOR decryption (must match the encryption keyword).
+   * @returns {string} - The decrypted UTF-8 string.
+   */
+  export function xorDecrypt(encoded: string, keyword: string): string;
+
+  /**
    * Delays execution for a specified duration in seconds and resolves to true when complete.
    * @param duration - The duration to wait in seconds.
    * @returns A promise that resolves to true after the specified duration.

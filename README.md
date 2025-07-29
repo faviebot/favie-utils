@@ -61,7 +61,14 @@ import { isDefined, isEmpty, getThumbnail } from 'favie-utils';
 - `objectToText`: Converts an object to a string representation, handling circular references.
 - `textToWords`: Converts text to an array of words, with optional strict trimming.
 - `trimChars`: Trims specified characters from the start and end of a string.
+
+### Cryptography
 - `sha256`: Computes the SHA-256 hash of a string.
+- `getKey`: Generates a 256-bit (32-byte) cryptographic key from a password using SHA-256 hash.
+- `encrypt`: Encrypts a UTF-8 string using AES-256-CBC with a password-derived key.
+- `decrypt`: Decrypts AES-256-CBC encrypted data using a password-derived key.
+- `xorEncrypt`: Encrypts a UTF-8 text string using XOR cipher with the given keyword.
+- `xorDecrypt`: Decrypts a Base64-encoded string using XOR cipher with the given keyword.
 
 ### File and Stream Handling
 - `downloadFile`: Downloads a file from the specified URL and saves it to the given file path.

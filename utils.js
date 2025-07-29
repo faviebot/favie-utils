@@ -408,6 +408,90 @@ export const sha256 = (string) => {
 }
 
 /**
+ * Generates a 256-bit (32-byte) cryptographic key from a password using SHA-256 hash.
+ * @param {string} password - The input password or passphrase.
+ * @returns {Buffer} - A 32-byte cryptographic key derived from the password.
+ */
+export const getKey = (password) => {
+  return crypto.createHash('sha256').update(password).digest()
+}
+
+/**
+ * Encrypts a UTF-8 string using AES-256-CBC with a password-derived key.
+ * @param {string} text - The plaintext to encrypt.
+ * @param {string} password - The password used to derive the encryption key.
+ * @returns {string} - A string containing the IV and encrypted data, separated by a colon (IV:encrypted).
+ */
+export const encrypt = (text, password) => {
+  const iv = crypto.randomBytes(16)
+  const key = getKey(password)
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv)
+  const encrypted = Buffer.concat([
+    cipher.update(text, 'utf8'),
+    cipher.final()
+  ])
+
+  return iv.toString('hex') + ':' + encrypted.toString('hex')
+}
+
+/**
+ * Decrypts AES-256-CBC encrypted data using a password-derived key.
+ * @param {string} encryptedData - The encrypted string in the format "iv:encrypted", both in hex.
+ * @param {string} password - The password used to derive the decryption key.
+ * @returns {string} - The decrypted UTF-8 string.
+ */
+export const decrypt = (encryptedData, password) => {
+  const [ivHex, encryptedHex] = encryptedData.split(':')
+  const iv = Buffer.from(ivHex, 'hex')
+  const encrypted = Buffer.from(encryptedHex, 'hex')
+  const key = getKey(password)
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv)
+
+  const decrypted = Buffer.concat([
+    decipher.update(encrypted),
+    decipher.final()
+  ])
+
+  return decrypted.toString('utf8')
+}
+
+/**
+ * Encrypts a UTF-8 text string using XOR cipher with the given keyword.
+ * @param {string} text - The plaintext to encrypt.
+ * @param {string} keyword - The keyword used for XOR encryption.
+ * @returns {string} - The Base64-encoded encrypted string.
+ */
+export const xorEncrypt = (text, keyword) => {
+  const buffer = Buffer.from(text, 'utf-8')
+  const key = Buffer.from(keyword, 'utf-8')
+  const result = Buffer.alloc(buffer.length)
+
+  for (let i = 0; i < buffer.length; i++) {
+    result[i] = buffer[i] ^ key[i % key.length]
+  }
+
+  return result.toString('base64')
+}
+
+/**
+ * Decrypts a Base64-encoded string using XOR cipher with the given keyword.
+ * @param {string} encoded - The Base64-encoded string to decrypt.
+ * @param {string} keyword - The keyword used for XOR decryption (must match the encryption keyword).
+ * @returns {string} - The decrypted UTF-8 string.
+ */
+export const xorDecrypt = (encoded, keyword) => {
+  const buffer = Buffer.from(encoded, 'base64')
+  const key = Buffer.from(keyword, 'utf-8')
+  const result = Buffer.alloc(buffer.length)
+
+  for (let i = 0; i < buffer.length; i++) {
+    result[i] = buffer[i] ^ key[i % key.length]
+  }
+
+  return result.toString('utf-8')
+}
+
+/**
  * Delays execution for a specified duration in seconds and resolves to true when complete.
  * @param {number} duration - The duration to wait in seconds.
  * @returns {Promise<boolean>} - A promise that resolves to true after the specified duration.

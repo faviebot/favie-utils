@@ -1,6 +1,6 @@
 {
   "name": "favie-utils",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Utils for Favie",
   "type": "module",
   "main": "utils.js",
